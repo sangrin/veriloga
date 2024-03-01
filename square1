@@ -1,0 +1,30 @@
+// VerilogA for VlogA_training, square1, veriloga
+
+`include "constants.vams"
+`include "disciplines.vams"
+
+module square1(out);
+
+output out;
+electrical out;
+
+parameter real trr = 1n ;
+parameter real out_high = 5 ;
+parameter real out_low = 1 ;
+parameter real tdelay = 5n ;
+parameter real period = 20n ;
+
+real x;
+
+analog begin
+
+	@(initial_step) x=0;
+	@(timer(tdelay, period/2)) x = !x;
+
+
+	V(out)<+ (out_high-out_low)*transition(x,tdelay,trr)+out_low;
+//	V(out)<+ (out_high-out_low)*x+out_low;
+//	V(out)<+ transition(x,0,trr);
+end
+
+endmodule
